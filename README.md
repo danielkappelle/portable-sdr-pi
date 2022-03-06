@@ -9,3 +9,8 @@ A portable SDR solution to listen to anything from FM radio to airband.
 - More decoding functionality
  - VOR decoding
  - RDS decoding
+
+On the hardware side
+- Neat enclosure
+- Proper controls, multiple knobs and proper screen
+- Little audio amplifier and built-in speakers
