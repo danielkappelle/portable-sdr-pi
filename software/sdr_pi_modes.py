@@ -29,7 +29,7 @@ class ModeFM(SdrPiMode):
 
   def update_stream(self):
     self.udp.set_mode('FM')
-    self.udp.set_freq(self.channels[self.channel+1]*1E6)
+    self.udp.set_freq(self.freq*1E6)
     pass
 
   def get_channel_display(self):
