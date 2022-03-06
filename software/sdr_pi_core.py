@@ -14,6 +14,7 @@ class SdrPiCore:
     self.input.register_knob_0((14,15), self.callback_knob_0)
     self.input.register_btn_0(18, self.callback_btn_0)
     self.received_sigint = False
+    self.pristine = True
 
     # Start the stream
     self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'wbfm', '-f', '102.7M'), stdout=subprocess.PIPE)
@@ -27,12 +28,18 @@ class SdrPiCore:
     else:
       self.config.get_mode().update_knob_0(dir)
 
+    self.pristine = False
+
   def callback_btn_0(self, _):
     self.config.toggle_editing()
 
   def loop(self):
     while True:
       self.display.update_display(self.config)
+      
+      if not self.pristine:
+        self.config.get_mode().update_stream()
+        self.pristine = True
       
       if self.received_sigint:
         self.cleanup()
