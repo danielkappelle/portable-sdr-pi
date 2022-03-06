@@ -1,6 +1,6 @@
 from sdr_pi_udp import *
 
-class SdrPiMode:
+class SdrPiMode(object):
   def __init__(self):
     self.display_name = ""
     self.udp = SdrPiUdp()
@@ -22,6 +22,7 @@ class ModeFM(SdrPiMode):
   def __init__(self):
     self.display_name = "FM"
     self.freq = 102.7 # In MHz
+    super().__init__()
 
   def update_knob_0(self, dir):
     self.freq += dir/10
@@ -45,6 +46,7 @@ class ModeCB(SdrPiMode):
       4: 27.005,
       5: 27.015
     }
+    super().__init__()
 
   def update_knob_0(self, dir):
     self.channel = (self.channel + dir) % len(self.channels)
