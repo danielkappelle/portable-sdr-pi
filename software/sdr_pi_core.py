@@ -34,6 +34,7 @@ class SdrPiCore:
     print("Exiting, just a moment")
     self.looping = False
     self.display.clear()
+    sys.exit(0)
 
 core = SdrPiCore()
 core.loop()
