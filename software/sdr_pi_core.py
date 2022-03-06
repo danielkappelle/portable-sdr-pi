@@ -17,7 +17,7 @@ class SdrPiCore:
     else:
       self.config.get_mode().update_knob_0(dir)
 
-  def callback_btn_0(self):
+  def callback_btn_0(self, _):
     self.config.toggle_editing()
 
   def loop(self):
