@@ -30,7 +30,7 @@ class SdrPiCore:
       self.display.update_display(self.config)
       # No delay needed, updating the display is rather slow
 
-  def exit(self):
+  def exit(self, *_):
     print("Exiting, just a moment")
     self.looping = False
     self.display.clear()
