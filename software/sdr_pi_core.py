@@ -4,6 +4,7 @@ from sdr_pi_input import *
 from time import sleep
 import signal
 import sys
+import subprocess
 
 class SdrPiCore:
   def __init__(self):
@@ -13,6 +14,10 @@ class SdrPiCore:
     self.input.register_knob_0((14,15), self.callback_knob_0)
     self.input.register_btn_0(18, self.callback_btn_0)
     self.received_sigint = False
+
+    # Start the stream
+    self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'wbfm', '-f', '102.7M'), stdout=subprocess.PIPE)
+    self.ps_sox = subprocess.Popen(('play', '-r', '32k', '-t', 'raw', '-e', 's', '-b', '16', '-c', '1', '-V1', '-'), stdin=self.ps_rtl_fm.stdout)
 
     signal.signal(signal.SIGINT, self.sigint_handler)
 
@@ -39,6 +44,8 @@ class SdrPiCore:
     self.received_sigint = True
 
   def cleanup(self):
+    self.ps_sox.kill()
+    self.ps_rtl_fm.kill()
     self.display.poweroff()
     sys.exit(0)
 

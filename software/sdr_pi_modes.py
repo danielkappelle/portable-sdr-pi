@@ -1,6 +1,9 @@
+from sdr_pi_udp import *
+
 class SdrPiMode:
   def __init__(self):
     self.display_name = ""
+    self.udp = SdrPiUdp()
     pass
 
   def update_knob_0(self, dir):
@@ -24,7 +27,8 @@ class ModeFM(SdrPiMode):
     self.freq += dir/10
 
   def update_stream(self):
-    # Invoke UDP command here
+    self.udp.set_mode('FM')
+    self.udp.set_freq(self.channels[self.channel+1]*1E6)
     pass
 
   def get_channel_display(self):
@@ -46,8 +50,8 @@ class ModeCB(SdrPiMode):
     self.channel = (self.channel + dir) % len(self.channels)
 
   def update_stream(self):
-    # Invoke UDP command
-    pass
+    self.udp.set_mode('FM')
+    self.udp.set_freq(self.channels[self.channel+1]*1E6)
 
   def get_channel_display(self):
     return "%d" % (self.channel+1)
