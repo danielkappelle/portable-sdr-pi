@@ -6,5 +6,5 @@ config = SdrPiConfig()
 display = SdrPiDisplay()
 
 while True:
-  display.update_display()
+  display.update_display(config)
   sleep(1)
