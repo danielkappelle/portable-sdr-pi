@@ -16,3 +16,7 @@ class SdrPiInput:
       callback(dir)
     
     self.enc = Encoder(pins[0], pins[1], callback=callback_wrapper)
+
+  def register_btn_0(self, pin, callback):
+    GPIO.setup(pin, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+    GPIO.add_event_detect(pin, GPIO.FALLING, callback=callback, bouncetime=300)
