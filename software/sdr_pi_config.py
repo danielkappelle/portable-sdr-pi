@@ -12,4 +12,7 @@ class SdrPiConfig:
 
   def get_mode(self):
     return self.modes[self.current_mode]
+
+  def change_mode(self, dir):
+    self.current_mode = (self.current_mode + dir) % len(self.modes)
     
