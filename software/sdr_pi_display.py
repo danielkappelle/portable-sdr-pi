@@ -40,7 +40,7 @@ class SdrPiDisplay:
     self.draw.text((70, self.dipslay_height//2-font_height//2), channel, font=self.font, fill=255)
 
     # Update changing box
-    if config.editing == "freq":
+    if config.editing == "channel":
       self.draw.rectangle((self.display_width//2+4, 4, self.display_width-4, self.dipslay_height-4), fill=None, outline=255)
       self.draw.rectangle((4, 4, self.display_width//2-4, self.dipslay_height-4), fill=None, outline=0)
     else:
