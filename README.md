@@ -1,6 +1,9 @@
 # Portable SDR Pi
 A portable SDR solution to listen to anything from FM radio to airband.
 
+The setup looks as follows
+![The setup](./setup-poc.jpeg)
+
 ## Feature ideas
 - Possibility to use presets
  - Airband (quickly jump to right frequency range)
