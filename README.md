@@ -6,12 +6,12 @@ The setup looks as follows
 
 ## Feature ideas
 - Possibility to use presets
- - Airband (quickly jump to right frequency range)
- - Marine VHF radio (channel presets)
- - 27 MHz Citizens band channel presets
+  - Airband (quickly jump to right frequency range)
+  - Marine VHF radio (channel presets)
+  - 27 MHz Citizens band channel presets
 - More decoding functionality
- - VOR decoding
- - RDS decoding
+  - VOR decoding
+  - RDS decoding
 
 On the hardware side
 - Neat enclosure
