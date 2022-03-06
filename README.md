@@ -14,3 +14,4 @@ On the hardware side
 - Neat enclosure
 - Proper controls, multiple knobs and proper screen
 - Little audio amplifier and built-in speakers
+- Possibilty to plug into 12V adapter, or maybe via USB (for use in car)
