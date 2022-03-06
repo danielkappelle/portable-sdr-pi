@@ -20,4 +20,4 @@ class SdrPiCore:
       print('yes')
 
 core = SdrPiCore()
-SdrPiCore.loop()
+core.loop()
