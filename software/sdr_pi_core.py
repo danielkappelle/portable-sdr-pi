@@ -12,9 +12,9 @@ class SdrPiCore:
     self.input = SdrPiInput()
     self.input.register_knob_0((14,15), self.callback_knob_0)
     self.input.register_btn_0(18, self.callback_btn_0)
-    self.looping = True
+    self.received_sigint = False
 
-    signal.signal(signal.SIGINT, self.exit)
+    signal.signal(signal.SIGINT, self.sigint_handler)
 
   def callback_knob_0(self, dir):
     if self.config.editing == 'mode':
@@ -26,14 +26,20 @@ class SdrPiCore:
     self.config.toggle_editing()
 
   def loop(self):
-    while self.looping:
+    while True:
       self.display.update_display(self.config)
+      
+      if self.received_sigint:
+        self.cleanup()
+      
       # No delay needed, updating the display is rather slow
 
-  def exit(self, *_):
+  def sigint_handler(self, *_):
     print("Exiting, just a moment")
-    self.looping = False
-    self.display.clear()
+    self.received_sigint = True
+
+  def cleanup(self):
+    self.display.poweroff()
     sys.exit(0)
 
 core = SdrPiCore()

@@ -50,6 +50,5 @@ class SdrPiDisplay:
     self.oled.image(self.image)
     self.oled.show()
 
-  def clear(self):
-    self.oled.fill(0)
-    self.oled.show()
+  def poweroff(self):
+    self.oled.poweroff()
