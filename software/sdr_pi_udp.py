@@ -2,7 +2,7 @@ import socket
 import os
 
 if "DEBUG" in os.environ:
-    DEBUG = True
+  DEBUG = True
 
 class SdrPiUdp:
   def __init__(self):
@@ -11,7 +11,7 @@ class SdrPiUdp:
 
   def set_freq(self, freq):
     if DEBUG:
-        return
+      return
     freq = int(freq)
     buf = (0).to_bytes(1, 'little') + freq.to_bytes(4, 'little')
     self.s.send(buf)
