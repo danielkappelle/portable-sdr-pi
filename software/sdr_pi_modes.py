@@ -39,7 +39,7 @@ class ModeFM(SdrPiMode):
 class ModeCB(SdrPiMode):
   def __init__(self):
     super().__init__()
-    self.display_name = "Preset\nCB"
+    self.display_name = "CB"
     self.channel = 0
     
     with open(os.path.join(os.path.dirname(__file__), 'assets/cb_channels.csv')) as f:
@@ -56,3 +56,23 @@ class ModeCB(SdrPiMode):
 
   def get_channel_display(self):
     return "%d" % (self.channel+1)
+
+class ModeAirbandPresets(SdrPiMode):
+  def __init__(self):
+    super().__init__()
+    self.display_name = "Airband\npresets"
+    self.channel = 0
+
+    with open(os.path.join(os.path.dirname(__file__), 'assets/airband_channel_presets.csv')) as f:
+      reader = csv.reader()
+      self.channels = [[float(row[0]), row[1]] for row in reader]
+    
+    def update_knob_0(self, dir):
+      self.channel = (self.channel + dir) % len(self.channels)
+
+    def update_stream(self):
+      self.udp.set_mode('AM')
+      self.udp.set_freq(self.channels[self.channel][0]*1E6)
+
+    def get_channel_display(self):
+      return self.channels[self.channel][1] + ("\n%.3f" % self.channels[self.channel][0])

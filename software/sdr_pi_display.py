@@ -25,6 +25,8 @@ class SdrPiDisplay:
     self.image = Image.new("1", (self.oled.width, self.oled.height))
     self.draw = ImageDraw.Draw(self.image)
     self.font = ImageFont.truetype(os.path.join(os.path.dirname(__file__),"assets/arial.ttf"), 12)
+    self.channel_font_size = 12
+    self.channel_font = ImageFont.truetype(os.path.join(os.path.dirname(__file__),"assets/arial.ttf"), self.channel_font_size)
 
   def update_display(self, config):
     # First update the mode
@@ -35,9 +37,14 @@ class SdrPiDisplay:
 
     # Update channel/frequency
     channel = config.get_mode().get_channel_display()
-    (font_width, font_height) = self.font.getsize(channel)
+    self.channel_font_size = 12
+    while self.channel_font.getsize(channel)[0] > (self.display_width/2-4) and self.channel_font_size >= 5:
+      self.channel_font_size -= 1
+      self.channel_font = ImageFont.truetype(os.path.join(os.path.dirname(__file__),"assets/arial.ttf"), self.channel_font_size)
+    
+    (font_width, font_height) = self.channel_font.getsize(channel)
     self.draw.rectangle((self.display_width//2, 0, self.display_width, self.display_height), fill=0)
-    self.draw.text((70, self.display_height//2-font_height//2), channel, font=self.font, fill=255)
+    self.draw.text((70, self.display_height//2-font_height//2), channel, font=self.channel_font, fill=255)
 
     # Update changing box
     if config.editing == "channel":
