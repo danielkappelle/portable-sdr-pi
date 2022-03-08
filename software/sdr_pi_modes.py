@@ -44,7 +44,7 @@ class ModeCB(SdrPiMode):
     
     with open(os.path.join(os.path.dirname(__file__), 'assets/cb_channels.csv')) as f:
       reader = csv.reader(f)
-      self.channels = {int(rows[0]):rows[1] for rows in reader}
+      self.channels = {int(rows[0]):float(rows[1]) for rows in reader}
       
 
   def update_knob_0(self, dir):
