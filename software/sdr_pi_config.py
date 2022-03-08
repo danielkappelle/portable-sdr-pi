@@ -4,7 +4,8 @@ class SdrPiConfig:
   def __init__(self):
     self.modes = [
       ModeFM(),
-      ModeCB()
+      ModeCB(),
+      ModeAirbandPresets()
     ]
 
     self.current_mode = 0
