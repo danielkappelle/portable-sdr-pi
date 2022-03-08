@@ -64,7 +64,7 @@ class ModeAirbandPresets(SdrPiMode):
     self.channel = 0
 
     with open(os.path.join(os.path.dirname(__file__), 'assets/airband_channel_presets.csv')) as f:
-      reader = csv.reader()
+      reader = csv.reader(f)
       self.channels = [[float(row[0]), row[1]] for row in reader]
     
   def update_knob_0(self, dir):

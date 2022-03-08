@@ -5,6 +5,7 @@ from time import sleep
 import signal
 import sys
 import subprocess
+import os
 
 class SdrPiCore:
   def __init__(self):
@@ -17,8 +18,9 @@ class SdrPiCore:
     self.pristine = True
 
     # Start the stream
-    self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'wbfm', '-f', '102.7M'), stdout=subprocess.PIPE)
-    self.ps_sox = subprocess.Popen(('play', '-r', '32k', '-t', 'raw', '-e', 's', '-b', '16', '-c', '1', '-V1', '-'), stdin=self.ps_rtl_fm.stdout)
+    if not DEBUG:
+        self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'wbfm', '-f', '102.7M'), stdout=subprocess.PIPE)
+        self.ps_sox = subprocess.Popen(('play', '-r', '32k', '-t', 'raw', '-e', 's', '-b', '16', '-c', '1', '-V1', '-'), stdin=self.ps_rtl_fm.stdout)
 
     signal.signal(signal.SIGINT, self.sigint_handler)
 
@@ -55,6 +57,9 @@ class SdrPiCore:
     self.ps_rtl_fm.kill()
     self.display.poweroff()
     sys.exit(0)
+
+if "DEBUG" in os.environ:
+    DEBUG = True
 
 core = SdrPiCore()
 core.loop()
