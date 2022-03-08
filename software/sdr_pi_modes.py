@@ -67,12 +67,12 @@ class ModeAirbandPresets(SdrPiMode):
       reader = csv.reader()
       self.channels = [[float(row[0]), row[1]] for row in reader]
     
-    def update_knob_0(self, dir):
-      self.channel = (self.channel + dir) % len(self.channels)
+  def update_knob_0(self, dir):
+    self.channel = (self.channel + dir) % len(self.channels)
 
-    def update_stream(self):
-      self.udp.set_mode('AM')
-      self.udp.set_freq(self.channels[self.channel][0]*1E6)
+  def update_stream(self):
+    self.udp.set_mode('AM')
+    self.udp.set_freq(self.channels[self.channel][0]*1E6)
 
-    def get_channel_display(self):
-      return self.channels[self.channel][1] + ("\n%.3f" % self.channels[self.channel][0])
+  def get_channel_display(self):
+    return self.channels[self.channel][1] + ("\n%.3f" % self.channels[self.channel][0])
