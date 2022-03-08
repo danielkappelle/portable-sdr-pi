@@ -1,4 +1,6 @@
 from sdr_pi_udp import *
+from csv import DictReader
+import os
 
 class SdrPiMode(object):
   def __init__(self):
@@ -39,13 +41,9 @@ class ModeCB(SdrPiMode):
     super().__init__()
     self.display_name = "Preset\nCB"
     self.channel = 0
-    self.channels = {
-      1: 26.965,
-      2: 26.975,
-      3: 26.985,
-      4: 27.005,
-      5: 27.015
-    }
+    
+    with open(os.path.join(os.path.dirname(__file__), 'assets/cb_channels.csv')) as f:
+      self.channels = DictReader(f)
 
   def update_knob_0(self, dir):
     self.channel = (self.channel + dir) % len(self.channels)
