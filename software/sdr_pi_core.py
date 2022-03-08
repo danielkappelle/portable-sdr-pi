@@ -53,8 +53,9 @@ class SdrPiCore:
     self.received_sigint = True
 
   def cleanup(self):
-    self.ps_sox.kill()
-    self.ps_rtl_fm.kill()
+    if not DEBUG:
+        self.ps_sox.kill()
+        self.ps_rtl_fm.kill()
     self.display.poweroff()
     sys.exit(0)
 

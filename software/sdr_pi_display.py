@@ -38,7 +38,7 @@ class SdrPiDisplay:
     # Update channel/frequency
     channel = config.get_mode().get_channel_display()
     self.channel_font_size = 12
-    while self.channel_font.getsize(channel)[0] > (self.display_width/2-4) and self.channel_font_size >= 5:
+    while self.channel_font.getsize(channel)[0] > (self.display_width/2-4) and self.channel_font_size >= 10:
       self.channel_font_size -= 1
       self.channel_font = ImageFont.truetype(os.path.join(os.path.dirname(__file__),"assets/arial.ttf"), self.channel_font_size)
     
