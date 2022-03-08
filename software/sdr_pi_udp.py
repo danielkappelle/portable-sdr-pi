@@ -1,8 +1,7 @@
 import socket
 import os
 
-if "DEBUG" in os.environ:
-  DEBUG = True
+DEBUG = "DEBUG" in os.environ
 
 class SdrPiUdp:
   def __init__(self):

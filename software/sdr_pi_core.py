@@ -59,8 +59,7 @@ class SdrPiCore:
     self.display.poweroff()
     sys.exit(0)
 
-if "DEBUG" in os.environ:
-    DEBUG = True
+DEBUG = "DEBUG" in os.environ
 
 core = SdrPiCore()
 core.loop()
