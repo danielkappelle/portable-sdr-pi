@@ -64,7 +64,7 @@ class ModeCBFM(SdrPiMode):
       self.channels = {int(rows[0]):float(rows[1]) for rows in reader}
       
   def activate(self):
-    self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'fm', '-4', '8k', '-f', '%.3fM' % (self.channels[self.channel+1]*1E6)), stdout=subprocess.PIPE)
+    self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'fm', '-r', '8k', '-f', '%.3fM' % (self.channels[self.channel+1]*1E6)), stdout=subprocess.PIPE)
     self.ps_sox = subprocess.Popen(('play', '-r', '8k', '-t', 'raw', '-e', 's', '-b', '16', '-c', '1', '-V1', '-'), stdin=self.ps_rtl_fm.stdout)
 
   def deactivate(self):
@@ -92,7 +92,7 @@ class ModeAirbandPresets(SdrPiMode):
       self.channels = [[float(row[0]), row[1].replace('\\n','\n')] for row in reader]
     
   def activate(self):
-    self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'am', '-4', '8k', '-f', '%.3fM' % (self.channels[self.channel][0]*1E6)), stdout=subprocess.PIPE)
+    self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'am', '-r', '8k', '-f', '%.3fM' % (self.channels[self.channel][0]*1E6)), stdout=subprocess.PIPE)
     self.ps_sox = subprocess.Popen(('play', '-r', '8k', '-t', 'raw', '-e', 's', '-b', '16', '-c', '1', '-V1', '-'), stdin=self.ps_rtl_fm.stdout)
 
   def deactivate(self):
