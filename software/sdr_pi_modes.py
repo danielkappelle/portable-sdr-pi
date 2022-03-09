@@ -16,7 +16,7 @@ class SdrPiMode(object):
     # What should be done when this mode is deactivated?
     pass
 
-  def update_knob_0(self, dir):
+  def update_knob_0(self, n):
     # What should happen in this mode if the first knob has changed
     pass
 
@@ -42,8 +42,8 @@ class ModeFM(SdrPiMode):
     self.ps_sox.kill()
     self.ps_rtl_fm.kill()
 
-  def update_knob_0(self, dir):
-    self.freq += dir/10
+  def update_knob_0(self, n):
+    self.freq += n/10
 
   def update_stream(self):
     self.udp.set_mode('FM')
@@ -71,8 +71,8 @@ class ModeCBFM(SdrPiMode):
     self.ps_sox.kill()
     self.ps_rtl_fm.kill()
 
-  def update_knob_0(self, dir):
-    self.channel = (self.channel + dir) % len(self.channels)
+  def update_knob_0(self, n):
+    self.channel = (self.channel + n) % len(self.channels)
 
   def update_stream(self):
     self.udp.set_mode('FM')
@@ -99,8 +99,8 @@ class ModeAirbandPresets(SdrPiMode):
     self.ps_sox.kill()
     self.ps_rtl_fm.kill()
 
-  def update_knob_0(self, dir):
-    self.channel = (self.channel + dir) % len(self.channels)
+  def update_knob_0(self, n):
+    self.channel = (self.channel + n) % len(self.channels)
 
   def update_stream(self):
     self.udp.set_mode('AM')

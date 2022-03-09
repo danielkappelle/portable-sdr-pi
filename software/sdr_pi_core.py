@@ -16,22 +16,25 @@ class SdrPiCore:
     self.input.register_btn_0(18, self.callback_btn_0)
     self.received_sigint = False
     self.pristine = True
+    self.knob_changed = 0
 
     signal.signal(signal.SIGINT, self.sigint_handler)
 
   def callback_knob_0(self, dir):
-    if self.config.editing == 'mode':
-      self.config.change_mode(dir)
-    else:
-      self.config.get_mode().update_knob_0(dir)
-
-    self.pristine = False
+    self.knob_changed += dir
 
   def callback_btn_0(self, _):
     self.config.toggle_editing()
 
   def loop(self):
     while True:
+      if self.knob_changed != 0:
+        if self.config.editing == 'mode':
+          self.config.change_mode(1 if self.knob_changed > 0 else -1)
+        else:
+          self.config.get_mode().update_knob_0(self.knob_changed)
+          self.pristine = False
+        self.knob_changed = 0
       self.display.update_display(self.config)
       
       if not self.pristine:
