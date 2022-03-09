@@ -5,15 +5,25 @@ DEBUG = "DEBUG" in os.environ
 
 class SdrPiUdp:
   def __init__(self):
+    self.connect()
+    pass
+
+  def connect(self):
     self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     self.s.connect(("localhost", 6020))
 
   def set_freq(self, freq):
-    if DEBUG:
-      return
     freq = int(freq)
     buf = (0).to_bytes(1, 'little') + freq.to_bytes(4, 'little')
-    self.s.send(buf)
+
+    try:
+      self.s.send(buf)
+    except socket.error:
+      try:
+        self.connect()
+        self.s.send(buf)
+      except socket.error:
+        print("ERROR: can't connect to UDP")
 
   def set_mode(self, mode):
     modes = {
