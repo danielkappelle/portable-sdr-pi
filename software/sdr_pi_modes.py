@@ -1,10 +1,19 @@
 from sdr_pi_udp import *
 import csv
 import os
+import subprocess
 
 class SdrPiMode(object):
   def __init__(self):
     self.udp = SdrPiUdp()
+    pass
+
+  def activate(self):
+    # What should be done when this mode is activated?
+    pass
+
+  def deactivate(self):
+    # What should be done when this mode is deactivated?
     pass
 
   def update_knob_0(self, dir):
@@ -25,6 +34,14 @@ class ModeFM(SdrPiMode):
     self.display_name = "FM"
     self.freq = 102.7 # In MHz
 
+  def activate(self):
+    self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'wbfm', '-f', '102.7M'), stdout=subprocess.PIPE)
+    self.ps_sox = subprocess.Popen(('play', '-r', '32k', '-t', 'raw', '-e', 's', '-b', '16', '-c', '1', '-V1', '-'), stdin=self.ps_rtl_fm.stdout)
+
+  def deactivate(self):
+    self.ps_sox.kill()
+    self.ps_rtl_fm.kill()
+
   def update_knob_0(self, dir):
     self.freq += dir/10
 
@@ -36,7 +53,7 @@ class ModeFM(SdrPiMode):
   def get_channel_display(self):
     return "%.1f\nMHz" % self.freq
 
-class ModeCB(SdrPiMode):
+class ModeCBFM(SdrPiMode):
   def __init__(self):
     super().__init__()
     self.display_name = "CB"
@@ -46,6 +63,13 @@ class ModeCB(SdrPiMode):
       reader = csv.reader(f)
       self.channels = {int(rows[0]):float(rows[1]) for rows in reader}
       
+  def activate(self):
+    self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'fm', '-4', '8k', '-f', '%.3fM' % (self.channels[self.channel+1]*1E6)), stdout=subprocess.PIPE)
+    self.ps_sox = subprocess.Popen(('play', '-r', '8k', '-t', 'raw', '-e', 's', '-b', '16', '-c', '1', '-V1', '-'), stdin=self.ps_rtl_fm.stdout)
+
+  def deactivate(self):
+    self.ps_sox.kill()
+    self.ps_rtl_fm.kill()
 
   def update_knob_0(self, dir):
     self.channel = (self.channel + dir) % len(self.channels)
@@ -67,6 +91,14 @@ class ModeAirbandPresets(SdrPiMode):
       reader = csv.reader(f)
       self.channels = [[float(row[0]), row[1].replace('\\n','\n')] for row in reader]
     
+  def activate(self):
+    self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'am', '-4', '8k', '-f', '%.3fM' % (self.channels[self.channel][0]*1E6)), stdout=subprocess.PIPE)
+    self.ps_sox = subprocess.Popen(('play', '-r', '8k', '-t', 'raw', '-e', 's', '-b', '16', '-c', '1', '-V1', '-'), stdin=self.ps_rtl_fm.stdout)
+
+  def deactivate(self):
+    self.ps_sox.kill()
+    self.ps_rtl_fm.kill()
+
   def update_knob_0(self, dir):
     self.channel = (self.channel + dir) % len(self.channels)
 

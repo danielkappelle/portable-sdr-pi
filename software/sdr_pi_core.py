@@ -17,11 +17,6 @@ class SdrPiCore:
     self.received_sigint = False
     self.pristine = True
 
-    # Start the stream
-    if not DEBUG:
-        self.ps_rtl_fm = subprocess.Popen(('rtl_fm', '-M', 'wbfm', '-f', '102.7M'), stdout=subprocess.PIPE)
-        self.ps_sox = subprocess.Popen(('play', '-r', '32k', '-t', 'raw', '-e', 's', '-b', '16', '-c', '1', '-V1', '-'), stdin=self.ps_rtl_fm.stdout)
-
     signal.signal(signal.SIGINT, self.sigint_handler)
 
   def callback_knob_0(self, dir):
@@ -53,9 +48,7 @@ class SdrPiCore:
     self.received_sigint = True
 
   def cleanup(self):
-    if not DEBUG:
-        self.ps_sox.kill()
-        self.ps_rtl_fm.kill()
+    self.config.get_mode().deactivate()
     self.display.poweroff()
     sys.exit(0)
 
