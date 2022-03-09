@@ -9,6 +9,7 @@ class SdrPiConfig:
     ]
 
     self.current_mode = 0
+    self.get_mode().activate()
     self.editing = 'mode'
 
   def get_mode(self):
