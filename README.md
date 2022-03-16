@@ -13,6 +13,7 @@ The setup looks as follows
   - ~Airband presets for certain airports~
   - Marine VHF radio (channel presets)
   - ~27 MHz Citizens band channel presets~
+  - Motorola walkie talkie channels
 - More decoding functionality
   - VOR decoding
   - RDS decoding
